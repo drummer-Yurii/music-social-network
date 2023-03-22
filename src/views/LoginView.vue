@@ -5,16 +5,25 @@
                 <div class="bg-black p-8 shadow rounded mb-6">
                     <h1 class="mb-6 text-lg text-gray-100 font-thin">Let's get rocking!</h1>
                     <div class="mb-4">
-                        <label class="block uppercase tracking-wide text-xs font-bold mb-2 text-gray-100">
-                            First Name
-                        </label>
-                        <input class="appearance-none block w-full bg-white text-gray-700 border border-gray-400
-                                rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            type="text" />
+                        <TextInput 
+                            label="Email"
+                            :labelColor="false"
+                            placeholder="john.doe@m.com"
+                            v-model:input="email"
+                            inputType="text"
+                            error="This is a test error"
+                        />
                     </div>
-                    <span class="text-red-500">
-                        This is an error message
-                    </span>
+                    <div class="mb-4">
+                        <TextInput 
+                            label="Password"
+                            :labelColor="false"
+                            placeholder="password123?"
+                            v-model:input="password"
+                            inputType="password"
+                            error="This is a test error"
+                        />
+                    </div>
                     <button class="block w-full bg-green-500 text-white rounded-sm py-3 text-sm tracking-wide"
                         type="submit">
                         Register
@@ -32,7 +41,11 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import TextInput from '@/components/global/TextInput.vue';
 
+let email = ref(null);
+let password = ref(null);
 </script>
 
 <style lang="scss" scoped></style>
