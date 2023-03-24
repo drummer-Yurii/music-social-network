@@ -11,7 +11,7 @@
                             placeholder="John"
                             v-model:input="firstName"
                             inputType="text"
-                            error="This is a test error"
+                            :error="errors.first_name ? errors.first_name[0] : ''"
                         />
                     </div>
 
@@ -22,7 +22,7 @@
                             placeholder="Doe"
                             v-model:input="lastName"
                             inputType="text"
-                            error="This is a test error"
+                            :error="errors.last_name ? errors.last_name[0] : ''"
                         />
                     </div>
                     <div class="mb-4">
@@ -32,7 +32,7 @@
                             placeholder="john.doe@m.com"
                             v-model:input="email"
                             inputType="text"
-                            error="This is a test error"
+                            :error="errors.email ? errors.email[0] : ''"
                         />
                     </div>
                     <div class="mb-4">
@@ -42,7 +42,7 @@
                             placeholder="password123?"
                             v-model:input="password"
                             inputType="password"
-                            error="This is a test error"
+                            :error="errors.password ? errors.password[0] : ''"
                         />
                     </div>
                     <div class="mb-4">
@@ -56,7 +56,7 @@
                     </div>
                     
                     <button class="block w-full bg-green-500 text-white rounded-sm py-3 text-sm tracking-wide"
-                        type="submit">
+                        type="submit" @click="register">
                         Register
                     </button>
                 </div>
@@ -74,12 +74,35 @@
 <script setup>
 import { ref } from 'vue';
 import TextInput from '@/components/global/TextInput.vue';
+import axios from 'axios';
+import { useUserStore } from '@/store/user-store';
 
+const userStore = useUserStore();
+
+let errors = ref([]);
 let firstName = ref(null);
 let lastName = ref(null);
 let email = ref(null);
 let password = ref(null);
 let confirmPassword = ref(null);
+
+const register = async () => {
+    errors.value = []
+
+    try {
+        let res = await axios.post('http://127.0.0.1:8001/api/register', {
+            first_name: firstName.value,
+            last_name: lastName.value,
+            email: email.value,
+            password: password.value,
+            password_confirmation: confirmPassword.value,
+        })
+
+        userStore.setUserDetails(res)
+    } catch (err) {
+        errors.value = err.response.data.errors
+    }
+}
 </script>
 
 <style lang="scss" scoped></style>
