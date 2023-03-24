@@ -17,7 +17,7 @@
                     placeholder="John"
                     v-model:input="firstName"
                     inputType="text"
-                    error="This is a test error"
+                    :error="errors.first_name ? errors.first_name[0] : ''"
                 />
             </div>
             <div class="w-full md:w-1/2 px-3">
@@ -26,7 +26,7 @@
                     placeholder="Doe"
                     v-model:input="lastName"
                     inputType="text"
-                    error="This is a test error"
+                    :error="errors.last_name ? errors.last_name[0] : ''"
                 />
             </div>
         </div>
@@ -37,7 +37,6 @@
                     placeholder="Madrid, ES"
                     v-model:input="location"
                     inputType="text"
-                    error="This is a test error"
                 />
             </div>  
         </div>
@@ -63,8 +62,7 @@
                <TextArea
                     label="Description"
                     placeholder="Please enter some information here!!!"
-                    v-model="description"
-                    error="This is a test error"
+                    v-model:description="description"
                />
             </div>  
         </div>
@@ -72,6 +70,7 @@
             <div class="w-full px-3">
                <SubmitFormButton 
                     btnText="Update Profile"
+                    @click="updateUser"
                />
             </div>  
         </div>
@@ -79,13 +78,19 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/store/user-store';
+import { useRouter } from 'vue-router';
 import CroppedImage from '@/components/global/CroppedImage.vue';
 import TextInput from '@/components/global/TextInput.vue';
 import TextArea from '@/components/global/TextArea.vue';
 import CropperModal from '@/components/global/CropperModal.vue';
 import SubmitFormButton from '@/components/global/SubmitFormButton.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import DisplayCropperButton from '@/components/global/DisplayCropperButton.vue';
+import axios from 'axios';
+
+const userStore = useUserStore();
+const router = useRouter();
 
 let showModal = ref(false);
 let firstName = ref(null);
@@ -94,10 +99,39 @@ let location = ref(null);
 let description = ref(null);
 // let imageData = null;
 let image = ref(null);
+let errors = ref([]);
+
+onMounted(() => {
+    firstName.value = userStore.firstName || null
+    lastName.value = userStore.lastName || null
+    location.value = userStore.location || null
+    description.value = userStore.description || null
+    image.value = userStore.image || null
+})
 
 const setCroppedImageData = (data) => {
     // imageData = data
     image.value = data.imageUrl
+}
+
+const updateUser = async () => {
+    errors.value = []
+
+    let data = new FormData();
+
+    data.append('first_name', firstName.value || '')
+    data.append('last_name', lastName.value || '')
+    data.append('location', location.value || '')
+    data.append('description', description.value || '')
+
+    try {
+        await axios.post('users/' + userStore.id + '?_method=PUT', data)
+        await userStore.fetchUser()
+
+        router.push('/account/profile')
+    } catch (err) {
+        errors.value = err.reasponse.data.errors;
+    }
 }
 </script>
 
