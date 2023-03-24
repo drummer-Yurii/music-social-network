@@ -4,16 +4,15 @@
             <b>About me</b>
         </p>
         <p class="text-md md:text-lg text-gray-600 leading-normal">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Iusto officiis voluptates nostrum ullam fugiat
-            corporis, officia facilis laboriosam maiores eos beatae, 
-            ut voluptate delectus incidunt, suscipit libero minima?
+            {{ userStore.description }}
         </p>
     </div>
 </template>
 
 <script setup>
+import { useUserStore } from '@/store/user-store';
 
+const userStore = useUserStore();
 </script>
 
 <style lang="scss" scoped></style>
