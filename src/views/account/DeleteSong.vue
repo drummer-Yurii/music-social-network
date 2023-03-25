@@ -29,6 +29,7 @@
 
 <script setup>
 import axios from 'axios';
+import Swal from '@/sweetalert2';
 import { useSongStore } from '@/store/song-store';
 import { useUserStore } from '@/store/user-store';
 
@@ -36,13 +37,31 @@ const songStore = useSongStore();
 const userStore = useUserStore();
 
 const deleteSong = async (song) => {
-    try {
-        await axios.delete('api/songs/' + song.id + '/' + userStore.id)
+    Swal.fire({
+        title: 'Are you sure you want to delete this?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                await axios.delete('api/songs/' + song.id + '/' + userStore.id)
 
-        songStore.fetchSongsByUserId(userStore.id)
-    } catch (err) {
-        console.log(err);
-    }
+                songStore.fetchSongsByUserId(userStore.id)
+
+                Swal.fire(
+                    'Deleted!',
+                    'You file has been deleted!',
+                    'success'
+                )
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    })
 }
 </script>
 
