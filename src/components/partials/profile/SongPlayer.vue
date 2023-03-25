@@ -14,10 +14,7 @@ const songStore = useSongStore();
 
 let songsList = []
 
-onMounted(() => {
-    mapSongs()
-    thePlayer()
-});
+onMounted(() => { mapSongs() });
 
 const mapSongs = () => {
     let newSongs = songStore.songs.map(function (song) {
@@ -30,6 +27,7 @@ const mapSongs = () => {
     for (let i = 0; i < newSongs.length; i++) {
         songsList.push(newSongs[i])
     }
+    thePlayer()
 }
 
 const thePlayer = () => {
