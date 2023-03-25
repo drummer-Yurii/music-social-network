@@ -17,6 +17,8 @@ export const useSongStore = defineStore('song', {
         },
 
         clearSongs() {
+            this.$state.artistId = null
+            this.$state.artistName = null
             this.$state.songs = null
         }
     },
