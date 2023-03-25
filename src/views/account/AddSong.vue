@@ -45,9 +45,11 @@ import TextInput from '@/components/global/TextInput.vue';
 import SubmitFormButton from '@/components/global/SubmitFormButton.vue';
 import Swal from '@/sweetalert2';
 import { useUserStore } from '@/store/user-store';
+import { useSongStore } from '@/store/song-store';
 import axios from 'axios';
 
 const userStore = useUserStore();
+const songStore = useSongStore();
 
 let title = ref(null);
 let song = ref(null);
@@ -75,6 +77,8 @@ const addSong = async () => {
         form.append('file', song.value)
 
         await axios.post('api/songs', form)
+
+        songStore.fetchSongsByUserId(userStore.id)
     } catch (err) {
         errors.value = err.response.data.errors
     }
