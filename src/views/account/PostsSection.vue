@@ -4,6 +4,7 @@
         <div class="text-gray-900 text-xl">Posts</div>
         <div class="bg-green-500 w-full h-1 mb-4"></div>
 
+
         <div class="mx-auto">
             <div class="my-4">
                 <div class="flex items-center py-2">

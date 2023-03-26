@@ -77,11 +77,13 @@ import SubmitFormButton from '@/components/global/SubmitFormButton.vue';
 import { ref } from 'vue';
 import DisplayCropperButton from '@/components/global/DisplayCropperButton.vue';
 import { useUserStore } from '@/store/user-store';
+import { usePostStore } from '@/store/post-store';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Swal from '@/sweetalert2';
 
 const userStore = useUserStore();
+const postStore = usePostStore();
 const router = useRouter();
 
 let showModal = ref(false);
@@ -117,6 +119,8 @@ const createPost = async () => {
 
     try {
         await axios.post('api/posts/', data)
+
+        await postStore.fetchPostsByUserId(userStore.id)
 
         Swal.fire(
             'New post created!',
