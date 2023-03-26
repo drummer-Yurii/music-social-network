@@ -4,7 +4,7 @@
             <div class="flex flex-wrap font-bold text-gray-100">
                 <div class="text-gray-900 text-xl">Posts</div>
                 <div class="bg-green-500 w-full h-1"></div>
-                <div class="w-full mt-4">
+                <div class="w-full mt-4" v-if="userStore.id == route.params.id">
                     <RouterLinkButton btnText="Create Post" color="green" url="/account/create-post" />
                 </div>
             </div>
@@ -27,7 +27,7 @@
                         <p class="text-gray-darker text-md">
                             {{ post.description }}
                         </p>
-                        <div class="mt-2 flex items-center justify-end">
+                        <div v-if="userStore.id == route.params.id" class="mt-2 flex items-center justify-end">
                             <router-link 
                                 :to="'/account/edit-post/' + post.id" 
                                 class="bg-blue-500 hover:bg-blue-700 text-white text-sm
@@ -53,11 +53,13 @@
 import RouterLinkButton from '@/components/global/RouterLinkButton.vue';
 import { usePostStore } from '@/store/post-store';
 import { useUserStore } from '@/store/user-store';
+import { useRoute } from 'vue-router';
 import Swal from '@/sweetalert2';
 import axios from 'axios';
 
 const postStore = usePostStore();
 const userStore = useUserStore();
+const route = useRoute();
 
 const deletePost = async (title, id) => {
     Swal.fire({
