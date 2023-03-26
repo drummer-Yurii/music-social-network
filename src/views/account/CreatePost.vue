@@ -102,6 +102,15 @@ const setCroppedImageData = (data) => {
 const createPost = async () => {
     errors.value = []
 
+    if (imageData === null) {
+        Swal.fire(
+            'No cropped image found?',
+            'Please crop an image of your choice and complete all other inputs',
+            'warning'
+        )
+        return null
+    }
+
     let data = new FormData();
 
     data.append('user_id', userStore.id || '')

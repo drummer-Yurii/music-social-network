@@ -28,7 +28,9 @@
                             {{ post.description }}
                         </p>
                         <div class="mt-2 flex items-center justify-end">
-                            <router-link to="" class="bg-blue-500 hover:bg-blue-700 text-white text-sm
+                            <router-link 
+                                :to="'/account/edit-post/' + post.id" 
+                                class="bg-blue-500 hover:bg-blue-700 text-white text-sm
                                 font-bold py-1 px-2 rounded-full"
                             >
                                 Edit post
