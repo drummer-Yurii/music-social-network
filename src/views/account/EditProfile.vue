@@ -28,9 +28,7 @@
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full md:w-1/2 px-3">
-                <CroppedImage 
-                    label="Cropped Image" 
-                    :image="image" />
+                <CroppedImage label="Cropped Image" :image="image" />
             </div>
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
@@ -106,7 +104,7 @@ const updateUser = async () => {
         await axios.post('api/users/' + userStore.id + '?_method=PUT', data)
         await userStore.fetchUser()
 
-        router.push('/account/profile')
+        router.push('/account/profile/' + userStore.id)
     } catch (err) {
         errors.value = err.reasponse.data.errors;
     }

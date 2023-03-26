@@ -56,10 +56,15 @@ import { useUserStore } from '@/store/user-store';
 import { useRoute } from 'vue-router';
 import Swal from '@/sweetalert2';
 import axios from 'axios';
+import { onMounted } from 'vue';
 
 const postStore = usePostStore();
 const userStore = useUserStore();
 const route = useRoute();
+
+onMounted(async () => {
+    await postStore.fetchPostsByUserId(route.params.id)
+})
 
 const deletePost = async (title, id) => {
     Swal.fire({

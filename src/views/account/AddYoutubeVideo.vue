@@ -4,28 +4,13 @@
         <div class="text-gray-900 text-xl">Add Youtube Video</div>
         <div class="bg-green-500 w-full h-1 mb-4"></div>
 
-        <TextInput 
-            class="mb-6"
-            label="Title"
-            placeholder="Cool New Video"
-            v-model:input="title"
-            inputType="text"
-            :error="errors.title ? errors.title[0] : ''"
-        />
+        <TextInput class="mb-6" label="Title" placeholder="Cool New Video" v-model:input="title" inputType="text"
+            :error="errors.title ? errors.title[0] : ''" />
 
-        <TextInput 
-            class="mb-2"
-            label="Video URL"
-            placeholder="2VnYXKwneUQ"
-            v-model:input="videoCode"
-            inputType="text"
-            :error="errors.url ? errors.url[0] : ''"
-        />
+        <TextInput class="mb-2" label="Video URL" placeholder="2VnYXKwneUQ" v-model:input="videoCode" inputType="text"
+            :error="errors.url ? errors.url[0] : ''" />
 
-        <SubmitFormButton 
-            btnText="Add Video"
-            @submit="addYoutubeVideoLink"
-        />
+        <SubmitFormButton btnText="Add Video" @submit="addYoutubeVideoLink" />
 
     </div>
 </template>
@@ -62,7 +47,7 @@ const addYoutubeVideoLink = async () => {
             'success'
         )
 
-        router.push('/account/profile')
+        router.push('/account/profile/' + userStore.id)
     } catch (err) {
         errors.value = err.response.data.errors
         console.log('err addYoutubeVideoLink', err);

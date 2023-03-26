@@ -28,8 +28,8 @@
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full px-3">
-                <TextArea label="Description" placeholder="Please enter some information here!!!" v-model:description="description"
-                    :error="errors.description ? errors.description[0] : ''" />
+                <TextArea label="Description" placeholder="Please enter some information here!!!"
+                    v-model:description="description" :error="errors.description ? errors.description[0] : ''" />
             </div>
         </div>
         <div class="flex flex-wrap mt-8 mb-6">
@@ -117,7 +117,7 @@ const updatePost = async () => {
             'The post you updated was called "' + title.value + '"',
             'warning'
         )
-        router.push('/account/profile')
+        router.push('/account/profile/' + userStore.id)
     } catch (err) {
         errors.value = err.reasponse.data.errors;
     }

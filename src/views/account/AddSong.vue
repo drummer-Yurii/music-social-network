@@ -4,37 +4,22 @@
         <div class="text-gray-900 text-xl">Add Song</div>
         <div class="bg-green-500 w-full h-1 mb-4"></div>
 
-        <TextInput 
-            class="mb-6"
-            label="Title"
-            placeholder="Cool New Song"
-            v-model:input="title"
-            inputType="text"
-            :error="errors.title ? errors.title[0] : ''"
-        />
+        <TextInput class="mb-6" label="Title" placeholder="Cool New Song" v-model:input="title" inputType="text"
+            :error="errors.title ? errors.title[0] : ''" />
 
         <div class="w-full">
             <label class="block uppercase tracking-wide text-gray-700
-                                text-xs font-bold mb-2">
+                                    text-xs font-bold mb-2">
                 Select Image
             </label>
-                <input 
-                    class="form-control block w-full px-3 py-1.5 text-base 
-                    font-normal text-gray-700 bg-white bg-clip-padding border
-                    border-solid border-gray-400 rounded transition ease-in-out
-                    m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600
-                    focus:outline-none" 
-                    type="file" 
-                    id="image" 
-                    ref="file"
-                    @change="handleFileUpload" 
-                />
+            <input class="form-control block w-full px-3 py-1.5 text-base 
+                        font-normal text-gray-700 bg-white bg-clip-padding border
+                        border-solid border-gray-400 rounded transition ease-in-out
+                        m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600
+                        focus:outline-none" type="file" id="image" ref="file" @change="handleFileUpload" />
         </div>
 
-        <SubmitFormButton 
-            btnText="Add Song"
-            @submit="addSong"
-        />
+        <SubmitFormButton btnText="Add Song" @submit="addSong" />
 
     </div>
 </template>
@@ -83,7 +68,7 @@ const addSong = async () => {
         songStore.fetchSongsByUserId(userStore.id)
 
         setTimeout(() => {
-            router.push('/account/profile')
+            router.push('/account/profile/' + userStore.id)
         }, 200)
     } catch (err) {
         errors.value = err.response.data.errors

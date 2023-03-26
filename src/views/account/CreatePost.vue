@@ -2,68 +2,40 @@
     <div id="CreatePost" class="container max-w-4xl mx-auto pt-20 pb-20 px-6">
         <div class="text-gray-900 text-xl">Create Post</div>
         <div class="bg-green-500 w-full h-1"></div>
-        <CropperModal 
-            v-if="showModal"
-            :minAspectRatioProp="{width: 16, height: 9}"
-            :maxAspectRatioProp="{width: 16, height: 9}"
-            @croppedImageData="setCroppedImageData"
-            @showModal="showModal = false"
-        />
-        
+        <CropperModal v-if="showModal" :minAspectRatioProp="{ width: 16, height: 9 }"
+            :maxAspectRatioProp="{ width: 16, height: 9 }" @croppedImageData="setCroppedImageData"
+            @showModal="showModal = false" />
+
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full md:w-1/2 px-3">
-                <TextInput 
-                    label="Title"
-                    placeholder="Awesome Concert!!!"
-                    v-model:input="title"
-                    inputType="text"
-                    :error="errors.title ? errors.title[0] : ''"
-                />
+                <TextInput label="Title" placeholder="Awesome Concert!!!" v-model:input="title" inputType="text"
+                    :error="errors.title ? errors.title[0] : ''" />
             </div>
             <div class="w-full md:w-1/2 px-3">
-                <TextInput 
-                    label="Location"
-                    placeholder="Madrid, ES"
-                    v-model:input="location"
-                    inputType="text"
-                    :error="errors.location ? errors.location[0] : ''"
-                />
+                <TextInput label="Location" placeholder="Madrid, ES" v-model:input="location" inputType="text"
+                    :error="errors.location ? errors.location[0] : ''" />
             </div>
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full md:w-1/2 px-3">
-               <DisplayCropperButton 
-                    label="Post Image"
-                    btnText="Add Post Image"
-                    @showModal="showModal = true"
-               />
-            </div>  
+                <DisplayCropperButton label="Post Image" btnText="Add Post Image" @showModal="showModal = true" />
+            </div>
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full px-3">
-               <CroppedImage 
-                    label="Cropped Image"
-                    :image="image"
-               />
-            </div>  
+                <CroppedImage label="Cropped Image" :image="image" />
+            </div>
         </div>
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full px-3">
-               <TextArea
-                    label="Description"
-                    placeholder="Please enter some information here!!!"
-                    v-model:description="description"
-                    :error="errors.description ? errors.description[0] : ''"
-               />
-            </div>  
+                <TextArea label="Description" placeholder="Please enter some information here!!!"
+                    v-model:description="description" :error="errors.description ? errors.description[0] : ''" />
+            </div>
         </div>
         <div class="flex flex-wrap mt-8 mb-6">
             <div class="w-full px-3">
-               <SubmitFormButton 
-                    btnText="Create Post"
-                    @submit="createPost"
-               />
-            </div>  
+                <SubmitFormButton btnText="Create Post" @submit="createPost" />
+            </div>
         </div>
     </div>
 </template>
@@ -117,7 +89,7 @@ const createPost = async () => {
     data.append('title', title.value || '')
     data.append('location', location.value || '')
     data.append('description', description.value || '')
-    
+
     if (imageData) {
         data.append('image', imageData.file || '')
         data.append('height', imageData.height || '')
@@ -129,14 +101,16 @@ const createPost = async () => {
     try {
         await axios.post('api/posts/', data)
 
-        await postStore.fetchPostsByUserId(userStore.id)
 
         Swal.fire(
             'New post created!',
             'The post you created was called "' + title.value + '"',
             'warning'
         )
-        router.push('/account/profile')
+
+        await postStore.fetchPostsByUserId(userStore.id)
+
+        router.push('/account/profile/' + userStore.id)
     } catch (err) {
         errors.value = err.reasponse.data.errors;
     }
