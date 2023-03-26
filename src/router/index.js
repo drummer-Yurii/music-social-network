@@ -80,7 +80,7 @@ const routes = [
         component: PostsSection,
       },
       {
-        path: 'post-by-id',
+        path: 'post-by-id/:id',
         name: 'PostById',
         component: PostById,
       }
