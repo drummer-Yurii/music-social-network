@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mx-auto py-4">
+        <div class="">
             <div class="flex flex-wrap font-bold text-gray-100">
                 <div class="text-gray-900 text-xl">Youtube Videos</div>
                 <div class="bg-green-500 w-full h-1"></div>
