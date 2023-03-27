@@ -38,6 +38,7 @@ export const useProfileStore = defineStore('profile', {
             this.$state.lastName = null
             this.$state.email = null
             this.$state.location = null
+            this.$state.image = null
             this.$state.description = null
         }
     },

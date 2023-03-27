@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/store/user-store'
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -22,16 +23,25 @@ const routes = [
   },
   {
     path: '/register',
+    beforeEnter: (to, from, next) => {
+      useUserStore().id ? next('/account/profile/' + useUserStore().id) : next()
+    },
     name: 'register',
     component: RegisterView
   },
   {
     path: '/login',
+    beforeEnter: (to, from, next) => {
+      useUserStore().id ? next('/account/profile/' + useUserStore().id) : next()
+    },
     name: 'login',
     component: LoginView
   },
   {
     path: '/account',
+    beforeEnter: (to, from, next) => {
+      useUserStore().id ? next() : next('/login')
+    },
     component: AccountView,
     children: [
       {
